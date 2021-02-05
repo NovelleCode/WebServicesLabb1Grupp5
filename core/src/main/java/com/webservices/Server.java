@@ -75,21 +75,23 @@ public class Server {
 
     private void handleHttpRequest(String headerLine) {
         String[] firstHeaderLine = headerLine.split(" ");
-        String method = firstHeaderLine[1];
-        String URL = firstHeaderLine[2];
-        // String protocol = firstHeaderLine[3];
+        String method = firstHeaderLine[0];
+        String url = firstHeaderLine[1];
+        // String protocol = firstHeaderLine[2];
 
         switch (method) {
             case "HEAD":
-                //handleHeadRequest();
+                //handleHeadRequest(url);
                 break;
             case "GET":
-                //handleGetRequest();
+                //handleGetRequest(url);
                 break;
             case "POST":
-                //handlePostRequest();
+                //handlePostRequest(url);
                 break;
 
         }
     }
+
+
 }
