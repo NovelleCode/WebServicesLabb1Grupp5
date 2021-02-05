@@ -12,22 +12,17 @@ import java.util.concurrent.Executors;
 public class Server {
     public static void main(String[] args) {
 
-        //ExecutorService executorService = Executors.newCachedThreadPool();
+        int portNumber = 8080;
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
 
         try {
+            ServerSocket serverSocket = new ServerSocket(portNumber);
 
-            ServerSocket serverSocket = new ServerSocket(3456);
-            System.out.println("Listening for connections on port 3456...\r\n");
+            while (true) {
+                Socket socket = serverSocket.accept();
 
-            while(true) {
-
-                Socket connectionSocket = serverSocket.accept();
-
-                Thread connectionThread = new Thread(new Connection(connectionSocket));
-
-                connectionThread.start();
-
-                //executorService.execute(() -> handleConnection(connectionSocket));
+                executorService.execute(() -> handleConnection(socket));
 
             }
         } catch (IOException e) {
@@ -45,8 +40,6 @@ public class Server {
                     if(headerLine.isEmpty())
                         break;
                 }
-
-                System.out.println("New connection on port 3456...\r\n");
 
                 var output = new PrintWriter(socket.getOutputStream());
                 String page = """
