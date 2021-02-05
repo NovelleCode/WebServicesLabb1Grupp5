@@ -3,7 +3,6 @@ package com.webservices;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,12 +25,17 @@ public class Server {
     }
 
         public static void handleConnection(Socket socket){
-            try{
-                BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            try (var input = new BufferedReader(new InputStreamReader(socket.getInputStream()))){
+                String headerLine = input.readLine();
+                if(headerLine != null) {
+                    new Server().handleHttpRequest(headerLine);
+                }
+                // First line of header consists of Method, URL and Protocol version
+                // Goal is to extract these and redirect the requests.
 
                 while(true){
-                    String headerLine = input.readLine();
-                    System.out.println(headerLine);
+                    String headerBody = input.readLine();
+                    System.out.println(headerBody);
                     if(headerLine.isEmpty())
                         break;
                 }
@@ -57,7 +61,7 @@ public class Server {
 
     private byte[] readFromFile(File file) {
         byte[] content = new byte[0];
-        System.out.println("Does file exists: " + file.exists());
+        System.out.println("Does file exist: " + file.exists());
         if (file.exists() && file.canRead()) {
             try (FileInputStream fileInputStream = new FileInputStream(file)) {
                 content = new byte[(int)file.length()];
@@ -67,5 +71,25 @@ public class Server {
             }
         }
         return content;
+    }
+
+    private void handleHttpRequest(String headerLine) {
+        String[] firstHeaderLine = headerLine.split(" ");
+        String method = firstHeaderLine[1];
+        String URL = firstHeaderLine[2];
+        // String protocol = firstHeaderLine[3];
+
+        switch (method) {
+            case "HEAD":
+                //handleHeadRequest();
+                break;
+            case "GET":
+                //handleGetRequest();
+                break;
+            case "POST":
+                //handlePostRequest();
+                break;
+
+        }
     }
 }
