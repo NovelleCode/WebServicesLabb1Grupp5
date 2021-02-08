@@ -1,4 +1,4 @@
-package com.webservices;
+package com.webservices.json;
 
 import com.google.gson.Gson;
 

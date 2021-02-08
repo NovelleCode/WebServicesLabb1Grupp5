@@ -1,4 +1,6 @@
-package com.webservices;
+package com.webservices.json;
+
+import com.webservices.json.Name;
 
 import java.util.List;
 

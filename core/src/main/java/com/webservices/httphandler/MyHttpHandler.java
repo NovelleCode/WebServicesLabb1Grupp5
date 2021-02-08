@@ -1,12 +1,9 @@
-package com.webservices;
+package com.webservices.httphandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MyHttpHandler implements HttpHandler {
     @Override
@@ -14,24 +11,21 @@ public class MyHttpHandler implements HttpHandler {
 
         String requestParamValue = null;
         System.out.println(exchange.getRequestMethod());
-        if("GET".equals(exchange.getRequestMethod())) {
+        if("GET".equals(exchange.getRequestMethod()) || "HEAD".equals(exchange.getRequestMethod())) {
 
-            requestParamValue = exchange.getRequestURI().toString().substring(1);
+            requestParamValue = formatRequestUri(exchange);
             System.out.println(requestParamValue);
         }
-//           handleGetRequest(exchange);
-//        } else if("POST".equals(exchange)) {
-//            requestParamValue = handlePostRequest(exchange);
-//        }
 
         handleResponse(exchange,requestParamValue);
     }
-//    private String handleGetRequest(HttpExchange httpExchange) {
-//        return httpExchange.
-//        getRequestURI().toString().split("\\?")[1].split("=")[1];
-//    }
-    private void handleResponse(HttpExchange httpExchange, String requestParamValue)  throws  IOException {
-        OutputStream outputStream = httpExchange.getResponseBody();
+
+    private String formatRequestUri(HttpExchange exchange) {
+        return exchange.getRequestURI().toString().substring(1);
+    }
+
+    private void handleResponse(HttpExchange exchange, String requestParamValue)  throws  IOException {
+        OutputStream outputStream = exchange.getResponseBody();
 
         File file = new File("Files/" + requestParamValue);
         byte[] page = new MyHttpHandler().readFromFile(file);
@@ -39,10 +33,12 @@ public class MyHttpHandler implements HttpHandler {
         String content = Files.probeContentType(file.toPath());
         System.out.println(content);
 
-        httpExchange.getResponseHeaders().set("Content-Type", content);
-        httpExchange.sendResponseHeaders(200, page.length);
+        exchange.getResponseHeaders().set("Content-Type", content);
+        exchange.sendResponseHeaders(200, page.length);
 
-        outputStream.write(page);
+        if("GET".equals(exchange.getRequestMethod())){
+            outputStream.write(page);
+        }
 
         outputStream.flush();
         outputStream.close();
