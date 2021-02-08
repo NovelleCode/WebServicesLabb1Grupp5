@@ -1,0 +1,19 @@
+GET http://localhost:8001/names
+Host: localhost
+Accept: application/json
+
+###
+GET http://localhost:8001/cat.png
+Host: localhost
+Accept: image/png
+
+
+###
+GET http://localhost:8001/inx.html
+Host: localhost
+Accept: text/html
+
+###
+GET http://localhost:8001/index.html
+Host: localhost
+Accept: text/html
