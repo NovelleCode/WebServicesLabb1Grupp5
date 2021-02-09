@@ -3,4 +3,5 @@ module core {
     requires jdk.httpserver;
     requires com.google.gson;
     requires mongo.java.driver;
+    requires org.apache.commons.lang3;
 }

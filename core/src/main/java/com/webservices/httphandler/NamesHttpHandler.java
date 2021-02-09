@@ -4,11 +4,21 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webservices.fileutils.FileReader;
+import com.webservices.json.Name;
+import com.webservices.json.Names;
+import org.apache.commons.lang3.StringUtils;
+
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
+
+
 
 public class NamesHttpHandler implements HttpHandler {
+
+    private static ArrayList<Name> names = new ArrayList<>();
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String requestParamValue = null;
@@ -38,8 +48,23 @@ public class NamesHttpHandler implements HttpHandler {
         while ((input = httpInput.readLine()) != null) {
             in.append(input).append(" ");
         }
+        if(exchange.getRequestMethod().equals("POST")) {
+            System.out.println(in);
+            String body = in.toString();
+            String fName = StringUtils.substringBetween(body, "fname=","&");
+            String lname = StringUtils.substringAfter(body, "lname=").trim();
 
-        System.out.println(in);
+            System.out.println("Firstname:" + fName);
+            System.out.println("Lastname:" + lname);
+
+            Name n = new Name(fName, lname);
+            names.add(n);
+            for (Name name: names) {
+                System.out.println(name.toString());
+            }
+        }
+
+
         httpInput.close();
 
         OutputStream outputStream = exchange.getResponseBody();
