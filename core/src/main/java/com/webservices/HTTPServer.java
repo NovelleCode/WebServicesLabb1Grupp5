@@ -1,5 +1,6 @@
 package com.webservices;
 
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.webservices.httphandler.MyHttpHandler;
 import com.webservices.httphandler.NamesHttpHandler;
@@ -17,7 +18,8 @@ public class HTTPServer {
         server.createContext("/sheet.pdf", new MyHttpHandler());
         server.createContext("/names", new NamesHttpHandler());
         server.createContext("/send.html", new NamesHttpHandler());
-        server.createContext("/result.html", new MyHttpHandler());
+        server.createContext("/postinfo.html", new NamesHttpHandler());
+        server.createContext("/result.html", new NamesHttpHandler());
         ExecutorService executorService = Executors.newCachedThreadPool();
         server.setExecutor(executorService);
         server.start();

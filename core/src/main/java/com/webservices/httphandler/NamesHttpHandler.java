@@ -1,11 +1,11 @@
 package com.webservices.httphandler;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webservices.fileutils.FileReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+
+import java.io.*;
 import java.nio.file.Files;
 
 public class NamesHttpHandler implements HttpHandler {
@@ -19,6 +19,7 @@ public class NamesHttpHandler implements HttpHandler {
         } else if ("POST".equals(exchange.getRequestMethod())) {
             requestParamValue = exchange.getRequestURI().toString().substring(1);
             System.out.println(exchange.getRequestURI());
+
         }
         handleGetResponse(exchange, requestParamValue);
         System.out.println(requestParamValue);
@@ -29,6 +30,17 @@ public class NamesHttpHandler implements HttpHandler {
     }
 
     private static void handleGetResponse(HttpExchange exchange, String requestParamValue) throws IOException {
+
+        BufferedReader httpInput = new BufferedReader(new InputStreamReader(
+                exchange.getRequestBody(), "UTF-8"));
+        StringBuilder in = new StringBuilder();
+        String input;
+        while ((input = httpInput.readLine()) != null) {
+            in.append(input).append(" ");
+        }
+
+        System.out.println(in);
+        httpInput.close();
 
         OutputStream outputStream = exchange.getResponseBody();
         File file = new File("files/" + requestParamValue);
