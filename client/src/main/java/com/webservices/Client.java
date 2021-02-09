@@ -12,11 +12,13 @@ public class Client {
         int portNumber = 8080;
         try(Socket socket = new Socket("localhost",portNumber)){
             var output = new PrintWriter(socket.getOutputStream());
+            output.println("Hello from client");
             output.flush();
             var input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             System.out.println(input.readLine());
 
             output.close();
+            socket.close();
 
         }catch (IOException e){
             e.printStackTrace();
