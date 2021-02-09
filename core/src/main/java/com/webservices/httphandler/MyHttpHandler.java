@@ -15,9 +15,8 @@ public class MyHttpHandler implements HttpHandler {
 
             requestParamValue = formatRequestUri(exchange);
             System.out.println(requestParamValue);
+            handleResponse(exchange,requestParamValue);
         }
-
-        handleResponse(exchange,requestParamValue);
     }
 
     private String formatRequestUri(HttpExchange exchange) {
@@ -34,6 +33,7 @@ public class MyHttpHandler implements HttpHandler {
         System.out.println(content);
 
         exchange.getResponseHeaders().set("Content-Type", content);
+        exchange.getResponseHeaders().set("Content-Length", String.valueOf(page.length));
         exchange.sendResponseHeaders(200, page.length);
 
         if("GET".equals(exchange.getRequestMethod())){
