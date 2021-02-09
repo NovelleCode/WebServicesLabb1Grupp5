@@ -1,14 +1,10 @@
 package com.webservices.httphandler;
 
-import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webservices.fileutils.FileReader;
 import com.webservices.json.Name;
-import com.webservices.json.Names;
 import org.apache.commons.lang3.StringUtils;
-
-
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;

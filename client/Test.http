@@ -3,7 +3,7 @@ Host: localhost
 Content-Type: application/json
 
 {
-   "type": "Json",
+  "type": "Json",
   "value": 1
 }
 
