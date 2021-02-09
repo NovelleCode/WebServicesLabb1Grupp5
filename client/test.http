@@ -1,1 +1,48 @@
-GET http://localhost:8080/index.html
+POST http://localhost:8001/send.html
+Host: localhost
+Content-Type: application/json
+
+{
+   "type": "Json",
+  "value": 1
+}
+
+###
+HEAD http://localhost:8001/index.html
+Host: localhost
+Accept: text/html
+
+###
+POST http://localhost:8001/send.html
+Host: localhost
+Accept: text/html
+
+###
+GET http://localhost:8001/result.html
+Host: localhost
+Accept: text/html
+
+###
+GET http://localhost:8001/sheet.pdf
+Host: localhost
+Accept: application/pdf
+
+###
+GET http://localhost:8001/names
+Host: localhost
+Accept: application/json
+
+###
+GET http://localhost:8001/cat.png
+Host: localhost
+Accept: image/png
+
+###
+GET http://localhost:8001/inx.html
+Host: localhost
+Accept: text/html
+
+###
+GET http://localhost:8001/index.html
+Host: localhost
+Accept: text/html
