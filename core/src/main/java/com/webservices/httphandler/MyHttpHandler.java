@@ -2,6 +2,7 @@ package com.webservices.httphandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
 import java.io.*;
 import java.nio.file.Files;
 
@@ -11,12 +12,14 @@ public class MyHttpHandler implements HttpHandler {
 
         String requestParamValue = null;
         System.out.println(exchange.getRequestMethod());
-        if("GET".equals(exchange.getRequestMethod()) || "HEAD".equals(exchange.getRequestMethod())) {
+        if ("GET".equals(exchange.getRequestMethod()) || "HEAD".equals(exchange.getRequestMethod())) {
 
             requestParamValue = formatRequestUri(exchange);
             System.out.println(requestParamValue);
-            handleResponse(exchange,requestParamValue);
         }
+
+        handleResponse(exchange, requestParamValue);
+
     }
 
     private String formatRequestUri(HttpExchange exchange) {

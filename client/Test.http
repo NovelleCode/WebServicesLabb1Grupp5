@@ -3,6 +3,16 @@ Host: localhost
 Accept: text/html
 
 ###
+POST http://localhost:8001/send.html
+Host: localhost
+Accept: text/html
+
+###
+GET http://localhost:8001/result.html
+Host: localhost
+Accept: text/html
+
+###
 GET http://localhost:8001/sheet.pdf
 Host: localhost
 Accept: application/pdf
@@ -16,7 +26,6 @@ Accept: application/json
 GET http://localhost:8001/cat.png
 Host: localhost
 Accept: image/png
-
 
 ###
 GET http://localhost:8001/inx.html
