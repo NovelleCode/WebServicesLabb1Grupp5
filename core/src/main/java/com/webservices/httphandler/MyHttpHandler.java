@@ -2,6 +2,7 @@ package com.webservices.httphandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.webservices.fileutils.FileReader;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -30,7 +31,7 @@ public class MyHttpHandler implements HttpHandler {
         OutputStream outputStream = exchange.getResponseBody();
 
         File file = new File("Files/" + requestParamValue);
-        byte[] page = new MyHttpHandler().readFromFile(file);
+        byte[] page = FileReader.readFromFile(file);
 
         String content = Files.probeContentType(file.toPath());
         System.out.println(content);
@@ -45,21 +46,6 @@ public class MyHttpHandler implements HttpHandler {
 
         outputStream.flush();
         outputStream.close();
-    }
-
-    private byte[] readFromFile(File file) {
-        byte[] content = new byte[0];
-        System.out.println("Does file exists: " + file.exists());
-        if (file.exists() && file.canRead()) {
-            try (FileInputStream fileInputStream = new FileInputStream(file)) {
-                content = new byte[(int)file.length()];
-                int count = fileInputStream.read(content);
-                System.out.println(count);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return content;
     }
 }
 

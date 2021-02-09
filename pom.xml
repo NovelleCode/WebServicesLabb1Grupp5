@@ -12,6 +12,7 @@
         <module>core</module>
         <module>plugin</module>
         <module>spi</module>
+        <module>fileutils</module>
     </modules>
 
     <properties>

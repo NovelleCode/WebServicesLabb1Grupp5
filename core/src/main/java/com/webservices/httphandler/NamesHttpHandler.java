@@ -2,9 +2,8 @@ package com.webservices.httphandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
+import com.webservices.fileutils.FileReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
@@ -29,11 +28,11 @@ public class NamesHttpHandler implements HttpHandler {
         return httpExchange.getRequestURI().toString().split("\\?")[1].split("=")[1];
     }
 
-    private void handleGetResponse(HttpExchange exchange, String requestParamValue) throws IOException {
+    private static void handleGetResponse(HttpExchange exchange, String requestParamValue) throws IOException {
 
         OutputStream outputStream = exchange.getResponseBody();
         File file = new File("Files/" + requestParamValue);
-        byte[] page = readFromFile(file);
+        byte[] page = FileReader.readFromFile(file);
 
         String content = Files.probeContentType(file.toPath());
         System.out.println(content);
@@ -44,20 +43,5 @@ public class NamesHttpHandler implements HttpHandler {
         outputStream.write(page);
         outputStream.flush();
         outputStream.close();
-    }
-
-    private byte[] readFromFile(File file) {
-        byte[] content = new byte[0];
-        System.out.println("Does file exists: " + file.exists());
-        if (file.exists() && file.canRead()) {
-            try (FileInputStream fileInputStream = new FileInputStream(file)) {
-                content = new byte[(int) file.length()];
-                int count = fileInputStream.read(content);
-                System.out.println(count);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return content;
     }
 }

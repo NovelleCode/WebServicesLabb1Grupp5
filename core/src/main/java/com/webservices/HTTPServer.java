@@ -18,7 +18,6 @@ public class HTTPServer {
         server.createContext("/names", new NamesHttpHandler());
         server.createContext("/send.html", new NamesHttpHandler());
         server.createContext("/result.html", new MyHttpHandler());
-//        server.createContext("/index.html", new  MyHttpHandler());
         ExecutorService executorService = Executors.newCachedThreadPool();
         server.setExecutor(executorService);
         server.start();
