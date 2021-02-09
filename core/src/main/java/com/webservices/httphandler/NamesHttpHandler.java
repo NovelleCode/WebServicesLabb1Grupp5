@@ -31,7 +31,7 @@ public class NamesHttpHandler implements HttpHandler {
     private static void handleGetResponse(HttpExchange exchange, String requestParamValue) throws IOException {
 
         OutputStream outputStream = exchange.getResponseBody();
-        File file = new File("Files/" + requestParamValue);
+        File file = new File("files/" + requestParamValue);
         byte[] page = FileReader.readFromFile(file);
 
         String content = Files.probeContentType(file.toPath());
