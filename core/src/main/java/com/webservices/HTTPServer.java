@@ -17,6 +17,8 @@ public class HTTPServer {
         server.createContext("/sheet.pdf", new MyHttpHandler());
         server.createContext("/names", new NamesHttpHandler());
         server.createContext("/send.html", new NamesHttpHandler());
+        server.createContext("/style.css", new NamesHttpHandler());
+        server.createContext("/func.js", new NamesHttpHandler());
         server.createContext("/result.html", new MyHttpHandler());
 //        server.createContext("/index.html", new  MyHttpHandler());
         ExecutorService executorService = Executors.newCachedThreadPool();
