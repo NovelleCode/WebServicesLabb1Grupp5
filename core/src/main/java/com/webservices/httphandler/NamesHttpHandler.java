@@ -3,7 +3,9 @@ package com.webservices.httphandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webservices.fileutils.FileReader;
-import com.webservices.json.Name;
+import com.webservices.models.Person;
+import com.webservices.models.PersonDAO;
+import com.webservices.models.PersonDAOImpl;
 import org.apache.commons.lang3.StringUtils;
 import java.io.*;
 import java.nio.file.Files;
@@ -11,7 +13,8 @@ import java.util.ArrayList;
 
 public class NamesHttpHandler implements HttpHandler {
 
-    private static ArrayList<Name> names = new ArrayList<>();
+    private static ArrayList<Person> names = new ArrayList<>();
+    private static PersonDAO pdao = new PersonDAOImpl();
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -51,11 +54,11 @@ public class NamesHttpHandler implements HttpHandler {
             System.out.println("Firstname:" + fName);
             System.out.println("Lastname:" + lname);
 
-            Name n = new Name(fName, lname);
-            names.add(n);
-            for (Name name: names) {
-                System.out.println(name.toString());
-            }
+
+            Person p = new Person(fName, lname);
+            pdao.create(p);
+            System.out.println(pdao.getAll());
+
         }
 
 

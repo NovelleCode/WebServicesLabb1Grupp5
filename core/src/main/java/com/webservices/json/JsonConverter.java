@@ -17,8 +17,8 @@ public class JsonConverter {
 
     private static void createJsonResponse() {
         var names = new Names();
-        names.names = new ArrayList<>();
-        names.names.add(new Name("Kajsa", "Anka"));
+//        names.names = new ArrayList<>();
+//        names.names.add(new Name("Kajsa", "Anka"));
 
         JsonConverter converter = new JsonConverter();
 

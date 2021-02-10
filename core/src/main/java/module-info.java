@@ -4,4 +4,5 @@ module core {
     requires com.google.gson;
     requires mongo.java.driver;
     requires org.apache.commons.lang3;
+    requires database;
 }
