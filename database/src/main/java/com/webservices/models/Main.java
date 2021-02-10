@@ -7,23 +7,11 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPA");
-        EntityManager em = emf.createEntityManager();
 
-        em.getTransaction().begin();
-        Person o = em.find(Person.class, 1);
-        System.out.println(o);
-        em.getTransaction().commit();
-
-
-        }
-    @Override
-    public List<Person> getAll() {
-        List<Person> list;
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        list = em.createQuery("select u from User u", Person.class).getResultList();
-        em.getTransaction().commit();
-        return list;
+        PersonDAO pdao = new PersonDAOImpl();
+        Person p = new Person("Mickey", "mouse");
+        pdao.create(p);
+        System.out.println(pdao.getAll());
     }
+
 }
