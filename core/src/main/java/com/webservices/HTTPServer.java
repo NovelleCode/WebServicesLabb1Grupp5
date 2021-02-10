@@ -19,7 +19,10 @@ public class HTTPServer {
         server.createContext("/names", new NamesHttpHandler());
         server.createContext("/send.html", new NamesHttpHandler());
         server.createContext("/postinfo.html", new NamesHttpHandler());
-        server.createContext("/result.html", new NamesHttpHandler());
+
+        server.createContext("/result", new NamesHttpHandler());
+        // replace nameshttphandler with databasehandler
+
         ExecutorService executorService = Executors.newCachedThreadPool();
         server.setExecutor(executorService);
         server.start();
