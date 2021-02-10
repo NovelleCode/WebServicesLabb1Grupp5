@@ -13,6 +13,7 @@
         <module>plugin</module>
         <module>spi</module>
         <module>fileutils</module>
+        <module>database</module>
     </modules>
 
     <properties>

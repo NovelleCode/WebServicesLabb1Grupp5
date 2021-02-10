@@ -1,25 +1,31 @@
-package com.webservices.json;
+package com.webservices.models;
 
-public class Name {
+import javax.persistence.*;
 
-    private String id;
+@Entity
+@Table(name="People")
+public class Person {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private int id;
 
     private String firstName;
     private String lastName;
 
-    public Name(String firstName, String lastName) {
+    public Person(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public Name() {
+    public Person() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

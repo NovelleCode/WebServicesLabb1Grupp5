@@ -9,8 +9,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
-
-
 public class NamesHttpHandler implements HttpHandler {
 
     private static ArrayList<Name> names = new ArrayList<>();
