@@ -6,6 +6,6 @@ module database {
     requires com.fasterxml.classmate;
     requires java.xml.bind;
     exports com.webservices.models;
-    opens com.webservices.models to org.hibernate.orm.core;
+    opens com.webservices.models to org.hibernate.orm.core, com.google.gson;
 
 }

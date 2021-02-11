@@ -1,6 +1,5 @@
 package com.webservices;
 
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.webservices.httphandler.MyHttpHandler;
 import com.webservices.httphandler.NamesHttpHandler;
@@ -16,9 +15,9 @@ public class HTTPServer {
         server.createContext("/index.html", new MyHttpHandler());
         server.createContext("/cat.png", new MyHttpHandler());
         server.createContext("/sheet.pdf", new MyHttpHandler());
-        server.createContext("/names", new NamesHttpHandler());
-        server.createContext("/send.html", new NamesHttpHandler());
-        server.createContext("/postinfo.html", new NamesHttpHandler());
+        server.createContext("/postinfo.html", new MyHttpHandler());
+        server.createContext("/style.css",new MyHttpHandler());
+        server.createContext("/func.js",new MyHttpHandler());
 
         server.createContext("/result", new NamesHttpHandler());
         // replace nameshttphandler with databasehandler
@@ -27,5 +26,19 @@ public class HTTPServer {
         server.setExecutor(executorService);
         server.start();
     }
+
+    /*
+    * 1.Hämta data med GET, konverterat till JSON
+    * 2.Kunna skicka data via JSON till Databasen
+    * 3.Egen Handler för Javascript filer.
+    * 4.Ladda in plugins via Serviceloader Dynamiskt.
+    * 5.SPI för extenda och använda sig utav Dependency injections
+    *
+    *
+    *
+    *
+    *
+    *
+    * */
 
 }

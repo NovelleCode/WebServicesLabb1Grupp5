@@ -7,6 +7,7 @@ import com.webservices.models.Person;
 import com.webservices.models.PersonDAO;
 import com.webservices.models.PersonDAOImpl;
 import org.apache.commons.lang3.StringUtils;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class NamesHttpHandler implements HttpHandler {
             requestParamValue = exchange.getRequestURI().toString().substring(1);
             System.out.println(exchange.getRequestURI());
         } else if ("POST".equals(exchange.getRequestMethod())) {
-            requestParamValue = exchange.getRequestURI().toString().substring(1);
+            requestParamValue = exchange.getRequestURI().toString().substring(1) + ".html";
             System.out.println(exchange.getRequestURI());
 
         }
@@ -45,10 +46,10 @@ public class NamesHttpHandler implements HttpHandler {
         while ((input = httpInput.readLine()) != null) {
             in.append(input).append(" ");
         }
-        if(exchange.getRequestMethod().equals("POST")) {
+        if (exchange.getRequestMethod().equals("POST")) {
             System.out.println(in);
             String body = in.toString();
-            String fName = StringUtils.substringBetween(body, "fname=","&");
+            String fName = StringUtils.substringBetween(body, "fname=", "&");
             String lname = StringUtils.substringAfter(body, "lname=").trim();
 
             System.out.println("Firstname:" + fName);
@@ -57,7 +58,9 @@ public class NamesHttpHandler implements HttpHandler {
 
             Person p = new Person(fName, lname);
             pdao.create(p);
-            System.out.println(pdao.getAll());
+            //System.out.println(pdao.getAll());
+
+            createJsonResponse();
 
         }
 
@@ -67,6 +70,7 @@ public class NamesHttpHandler implements HttpHandler {
         OutputStream outputStream = exchange.getResponseBody();
         File file = new File("files/" + requestParamValue);
         byte[] page = FileReader.readFromFile(file);
+
 
         String content = Files.probeContentType(file.toPath());
         System.out.println(content);
@@ -78,4 +82,16 @@ public class NamesHttpHandler implements HttpHandler {
         outputStream.flush();
         outputStream.close();
     }
+
+    private static void createJsonResponse() {
+
+        var list = pdao.getAll();
+
+        JsonConverter converter = new JsonConverter();
+
+        var json = converter.convertToJson(list);
+        System.out.println(json);
+    }
+
+
 }
