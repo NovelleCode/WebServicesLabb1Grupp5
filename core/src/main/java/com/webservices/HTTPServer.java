@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 public class HTTPServer {
     public static void main(String[] args) throws IOException {
-        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8001), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8002), 0);
         server.createContext("/index.html", new MyHttpHandler());
         server.createContext("/cat.png", new MyHttpHandler());
         server.createContext("/sheet.pdf", new MyHttpHandler());

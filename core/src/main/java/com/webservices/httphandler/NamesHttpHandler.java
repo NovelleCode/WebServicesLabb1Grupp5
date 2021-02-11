@@ -60,12 +60,13 @@ public class NamesHttpHandler implements HttpHandler {
             pdao.create(p);
             //System.out.println(pdao.getAll());
 
-            createJsonResponse();
+
 
         }
 
-
         httpInput.close();
+
+        String json = createJsonResponse();
 
         OutputStream outputStream = exchange.getResponseBody();
         File file = new File("files/" + requestParamValue);
@@ -75,15 +76,15 @@ public class NamesHttpHandler implements HttpHandler {
         String content = Files.probeContentType(file.toPath());
         System.out.println(content);
 
-        exchange.getResponseHeaders().set("Content-Type", content);
-        exchange.sendResponseHeaders(200, page.length);
+        exchange.getResponseHeaders().set("Content-Type", "application/json");
+        exchange.sendResponseHeaders(200, json.length());
 
-        outputStream.write(page);
+        outputStream.write(json.getBytes());
         outputStream.flush();
         outputStream.close();
     }
 
-    private static void createJsonResponse() {
+    private static String createJsonResponse() {
 
         var list = pdao.getAll();
 
@@ -91,6 +92,7 @@ public class NamesHttpHandler implements HttpHandler {
 
         var json = converter.convertToJson(list);
         System.out.println(json);
+        return json;
     }
 
 
