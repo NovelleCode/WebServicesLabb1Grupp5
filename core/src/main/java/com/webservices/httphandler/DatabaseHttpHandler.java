@@ -2,45 +2,39 @@ package com.webservices.httphandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.webservices.fileutils.FileReader;
 import com.webservices.models.Person;
 import com.webservices.models.PersonDAO;
 import com.webservices.models.PersonDAOImpl;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 
-public class NamesHttpHandler implements HttpHandler {
+public class DatabaseHttpHandler implements HttpHandler {
 
-    private static ArrayList<Person> names = new ArrayList<>();
     private static PersonDAO pdao = new PersonDAOImpl();
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String requestParamValue = null;
+        String getURL = null;
         System.out.println(exchange.getRequestMethod());
         if ("GET".equals(exchange.getRequestMethod())) {
-            requestParamValue = exchange.getRequestURI().toString().substring(1);
+            //getURL = exchange.getRequestURI().toString().substring(1);
             System.out.println(exchange.getRequestURI());
         } else if ("POST".equals(exchange.getRequestMethod())) {
-            requestParamValue = exchange.getRequestURI().toString().substring(1) + ".html";
+            //  getURL = exchange.getRequestURI().toString().substring(1) + ".html";
             System.out.println(exchange.getRequestURI());
 
         }
-        handleGetResponse(exchange, requestParamValue);
-        System.out.println(requestParamValue);
+        handleGetResponse(exchange, getURL);
+        System.out.println(getURL);
     }
 
-    private String handleGetRequest(HttpExchange httpExchange) {
-        return httpExchange.getRequestURI().toString().split("\\?")[1].split("=")[1];
-    }
+    private static void handleGetResponse(HttpExchange exchange, String getURL) throws IOException {
 
-    private static void handleGetResponse(HttpExchange exchange, String requestParamValue) throws IOException {
-
-        BufferedReader httpInput = new BufferedReader(new InputStreamReader(
-                exchange.getRequestBody(), "UTF-8"));
+        BufferedReader httpInput = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), "UTF-8"));
         StringBuilder in = new StringBuilder();
         String input;
         while ((input = httpInput.readLine()) != null) {
@@ -55,27 +49,15 @@ public class NamesHttpHandler implements HttpHandler {
             System.out.println("Firstname:" + fName);
             System.out.println("Lastname:" + lname);
 
-
             Person p = new Person(fName, lname);
             pdao.create(p);
-            //System.out.println(pdao.getAll());
-
-
 
         }
 
         httpInput.close();
 
         String json = createJsonResponse();
-
         OutputStream outputStream = exchange.getResponseBody();
-        File file = new File("files/" + requestParamValue);
-        byte[] page = FileReader.readFromFile(file);
-
-
-        String content = Files.probeContentType(file.toPath());
-        System.out.println(content);
-
         exchange.getResponseHeaders().set("Content-Type", "application/json");
         exchange.sendResponseHeaders(200, json.length());
 
@@ -94,6 +76,8 @@ public class NamesHttpHandler implements HttpHandler {
         System.out.println(json);
         return json;
     }
+
+
 
 
 }

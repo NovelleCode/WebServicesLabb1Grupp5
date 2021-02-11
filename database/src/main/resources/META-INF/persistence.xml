@@ -8,8 +8,8 @@
 		<class>com.webservices.models.Person</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost;database=everyloop"/>
-			<property name="javax.persistence.jdbc.user" value="admin"/>
-			<property name="javax.persistence.jdbc.password" value="admin"/>
+			<property name="javax.persistence.jdbc.user" value="Gurra"/>
+			<property name="javax.persistence.jdbc.password" value="Gurra1"/>
 			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
 			<property name = "hibernate.show_sql" value = "true" />
       </properties>

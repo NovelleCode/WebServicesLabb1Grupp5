@@ -1,8 +1,8 @@
 package com.webservices;
 
 import com.sun.net.httpserver.HttpServer;
-import com.webservices.httphandler.MyHttpHandler;
-import com.webservices.httphandler.NamesHttpHandler;
+import com.webservices.httphandler.FilesHttpHandler;
+import com.webservices.httphandler.DatabaseHttpHandler;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -12,14 +12,14 @@ import java.util.concurrent.Executors;
 public class HTTPServer {
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8002), 0);
-        server.createContext("/index.html", new MyHttpHandler());
-        server.createContext("/cat.png", new MyHttpHandler());
-        server.createContext("/sheet.pdf", new MyHttpHandler());
-        server.createContext("/postinfo.html", new MyHttpHandler());
-        server.createContext("/style.css",new MyHttpHandler());
-        server.createContext("/func.js",new MyHttpHandler());
+        server.createContext("/index.html", new FilesHttpHandler());
+        server.createContext("/cat.png", new FilesHttpHandler());
+        server.createContext("/sheet.pdf", new FilesHttpHandler());
+        server.createContext("/postinfo.html", new FilesHttpHandler());
+        server.createContext("/style.css",new FilesHttpHandler());
+        server.createContext("/func.js",new FilesHttpHandler());
 
-        server.createContext("/result", new NamesHttpHandler());
+        server.createContext("/result", new DatabaseHttpHandler());
         // replace nameshttphandler with databasehandler
 
         ExecutorService executorService = Executors.newCachedThreadPool();

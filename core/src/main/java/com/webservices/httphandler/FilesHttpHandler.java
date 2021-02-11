@@ -7,19 +7,19 @@ import com.webservices.fileutils.FileReader;
 import java.io.*;
 import java.nio.file.Files;
 
-public class MyHttpHandler implements HttpHandler {
+public class FilesHttpHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
 
-        String requestParamValue = null;
+        String getURL = null;
         System.out.println(exchange.getRequestMethod());
         if ("GET".equals(exchange.getRequestMethod()) || "HEAD".equals(exchange.getRequestMethod())) {
 
-            requestParamValue = formatRequestUri(exchange);
-            System.out.println(requestParamValue);
+            getURL = formatRequestUri(exchange);
+            System.out.println(getURL);
         }
 
-        handleResponse(exchange, requestParamValue);
+        handleResponse(exchange, getURL);
 
     }
 
@@ -27,10 +27,10 @@ public class MyHttpHandler implements HttpHandler {
         return exchange.getRequestURI().toString().substring(1);
     }
 
-    private void handleResponse(HttpExchange exchange, String requestParamValue)  throws  IOException {
+    private void handleResponse(HttpExchange exchange, String getURL)  throws  IOException {
         OutputStream outputStream = exchange.getResponseBody();
 
-        File file = new File("files/" + requestParamValue);
+        File file = new File("files/" + getURL);
         byte[] page = FileReader.readFromFile(file);
 
         String content = Files.probeContentType(file.toPath());
