@@ -3,6 +3,7 @@ package com.webservices.httphandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webservices.fileutils.FileReader;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -37,9 +38,11 @@ public class FilesHttpHandler implements HttpHandler {
         String content = Files.probeContentType(file.toPath());
         System.out.println(file.getPath());
 
-        if (file.getPath().equals("files" + File.separator + "func.js")) {
-            content = "application/javascript";
-
+        //if (file.getPath().equals("files" + File.separator + "func.js")) {
+        //    content = "application/javascript";
+        //}
+        if (content == null || content.isEmpty()){
+            content = getContentTypeForNotDetected(getURL);
         }
         System.out.println(content);
 
@@ -54,6 +57,15 @@ public class FilesHttpHandler implements HttpHandler {
 
         outputStream.flush();
         outputStream.close();
+    }
+
+    private static String getContentTypeForNotDetected(String getURL) {
+        String content = "";
+        String fileExtension = StringUtils.substringAfter(getURL, ".").trim();
+        if (fileExtension.equals("js")) {
+            content = "application/javascript";
+        }
+        return content;
     }
 }
 
