@@ -27,20 +27,28 @@ public class FilesHttpHandler implements HttpHandler {
         return exchange.getRequestURI().toString().substring(1);
     }
 
-    private void handleResponse(HttpExchange exchange, String getURL)  throws  IOException {
+    private void handleResponse(HttpExchange exchange, String getURL) throws IOException {
         OutputStream outputStream = exchange.getResponseBody();
 
         File file = new File("files/" + getURL);
         byte[] page = FileReader.readFromFile(file);
 
+
         String content = Files.probeContentType(file.toPath());
+        System.out.println(file.getPath());
+
+        if (file.getPath().equals("files" + File.separator + "func.js")) {
+            content = "application/javascript";
+
+        }
         System.out.println(content);
 
         exchange.getResponseHeaders().set("Content-Type", content);
         exchange.getResponseHeaders().set("Content-Length", String.valueOf(page.length));
         exchange.sendResponseHeaders(200, page.length);
 
-        if("GET".equals(exchange.getRequestMethod())){
+
+        if ("GET".equals(exchange.getRequestMethod())) {
             outputStream.write(page);
         }
 
