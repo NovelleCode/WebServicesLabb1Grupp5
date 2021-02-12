@@ -28,17 +28,33 @@ public class HTTPServer {
     }
 
     /*
-    * 1.Hämta data med GET, konverterat till JSON
-    * 2.Kunna skicka data via JSON till Databasen
-    * 3.Egen Handler för Javascript filer.
-    * 4.Ladda in plugins via Serviceloader Dynamiskt.
-    * 5.SPI för extenda och använda sig utav Dependency injections
-    *
-    *
-    *
-    *
-    *
-    *
+    Att göra:
+
+    * - Ladda in plugins via Serviceloader Dynamiskt.
+    * - SPI för extenda och använda sig utav Dependency injections
+
+
+    Frågor till Martin
+    - Hur gör vi med databas vid inlämning? Behöver du den? I molnet?
+    - Behöver vi junit-tester?
+    - Tips på strukturering ex databasHttpHandler
+    - Ok att ha flera URL till samma handler?
+    - clientmodulen med test.http, vara kvar?
+
+     Vad behövs för VG, kan du förklara?
+    - Tips på plugins?
+    - Vad betyder:
+    "Pluginklasser ska ha ett definierat interface att extenda och använda sig av dependency injection för
+    att få objekt att hämta inkommande information via och skicka utgående information till.
+    Webb servern behöver alltså tillhandahålla någon form av Request och Response objekt"
+
+    Detta står en bit upp i labbbeskrivningen.
+    Webb servern kunna hantera pluginklasser skrivna i Java som kan laddas in dynamiskt.
+    Konfiguration av routing m.m. som behövs för pluginen ska göras med runtime annotations.
+
+
+
+
     * */
 
 }
