@@ -64,8 +64,6 @@ public class DatabaseHttpHandler implements HttpHandler {
 
     private static void handleGetResponse(HttpExchange exchange) throws IOException {
 
-
-
         String json = createJsonResponse();
         OutputStream outputStream = exchange.getResponseBody();
         exchange.getResponseHeaders().set("Content-Type", "application/json");
