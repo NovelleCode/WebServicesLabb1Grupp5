@@ -35,7 +35,6 @@ public class FilesHttpHandler implements HttpHandler {
         String content = Files.probeContentType(file.toPath());
         System.out.println(file.getPath());
 
-
         if (content == null || content.isEmpty()){
             content = getContentTypeForNotDetected(getURL);
         }

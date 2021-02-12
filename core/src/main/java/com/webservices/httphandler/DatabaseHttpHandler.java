@@ -3,11 +3,8 @@ package com.webservices.httphandler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webservices.NameConstants;
-import com.webservices.models.Person;
-import com.webservices.models.PersonDAO;
-import com.webservices.models.PersonDAOImpl;
+import com.webservices.models.HandlePerson;
 import org.apache.commons.lang3.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,70 +12,48 @@ import java.io.OutputStream;
 
 public class DatabaseHttpHandler implements HttpHandler {
 
-    private static PersonDAO pdao = new PersonDAOImpl();
-    //
-
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         switch(exchange.getRequestMethod()) {
             case "HEAD":
-                handleHeadResponse(exchange);
-                // M1 : Only header information as a response
+                handleHeaderResponse(exchange);
                 break;
             case "GET":
-                handleGetResponse(exchange);
-                // M1 :Header information as a response ++++
-                // M2 :Response body
+                handleHeaderResponse(exchange);
+                handleBodyResponse(exchange);
                 break;
             case "POST":
-                // M1 :Only header information as a response ++++
-                // M2 :Response body
-                // M3. Prepare post request information cq: take in firstname, lastname, create person, add person to table
-                handlePostResponse(exchange);
+                handlePostRequest(exchange);
+                handleHeaderResponse(exchange);
+                handleBodyResponse(exchange);
                 break;
             default:
-                // something here too?
+                System.out.println("Konstig request");
+                System.out.println(exchange.getRequestMethod());
                 break;
-
-
-                // send header method
-                // send body method
         }
     }
 
-    private static void handlePostResponse(HttpExchange exchange) throws IOException {
+    private static void handlePostRequest (HttpExchange exchange) throws IOException {
         String body = getFirstNameLastNameInput(exchange);
         String fName = getFirstName(body);
         String lName = getLastName(body);
-        createAndAddPerson(fName, lName);
+        HandlePerson.createAndAddPerson(fName, lName);
+    }
 
+    private static void handleHeaderResponse(HttpExchange exchange) throws IOException {
         String json = createJsonResponse();
-        OutputStream outputStream = exchange.getResponseBody();
         exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, NameConstants.CONTENTTYPEJSON);
         exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(json.length()));
         exchange.sendResponseHeaders(200, json.length());
-
-        outputStream.write(json.getBytes());
-        outputStream.flush();
-        outputStream.close();
     }
 
-    private static void handleGetResponse(HttpExchange exchange) throws IOException {
-
+    private static void handleBodyResponse(HttpExchange exchange) throws IOException {
         String json = createJsonResponse();
         OutputStream outputStream = exchange.getResponseBody();
-        exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, NameConstants.CONTENTTYPEJSON);
-        exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(json.length()));
-        exchange.sendResponseHeaders(200, json.length());
-
         outputStream.write(json.getBytes());
         outputStream.flush();
         outputStream.close();
-    }
-
-    private static void createAndAddPerson(String fName, String lName) {
-        Person p = new Person(fName, lName);
-        pdao.create(p);
     }
 
     private static String getFirstNameLastNameInput(HttpExchange exchange) throws IOException {
@@ -93,17 +68,15 @@ public class DatabaseHttpHandler implements HttpHandler {
     }
 
     private static String getLastName(String body) {
-        String lname = StringUtils.substringAfter(body, "lname=").trim();
-        return lname;
+        return StringUtils.substringAfter(body, "lname=").trim();
     }
 
     private static String getFirstName(String body) {
-        String fName = StringUtils.substringBetween(body, "fname=", "&");
-        return fName;
+        return StringUtils.substringBetween(body, "fname=", "&");
     }
 
     private static String createJsonResponse() {
-        var list = pdao.getAll();
+        var list = HandlePerson.getAllPersons();
         JsonConverter converter = new JsonConverter();
         var json = converter.convertToJson(list);
         System.out.println(json);
