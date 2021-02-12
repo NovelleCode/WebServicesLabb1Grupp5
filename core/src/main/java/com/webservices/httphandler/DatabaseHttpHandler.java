@@ -15,11 +15,11 @@ import java.io.OutputStream;
 public class DatabaseHttpHandler implements HttpHandler {
 
     private static PersonDAO pdao = new PersonDAOImpl();
+    //
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String requestMethod = exchange.getRequestMethod();
-        switch(requestMethod) {
+        switch(exchange.getRequestMethod()) {
             case "HEAD":
                 handleHeadResponse(exchange);
                 // M1 : Only header information as a response
@@ -38,6 +38,10 @@ public class DatabaseHttpHandler implements HttpHandler {
             default:
                 // something here too?
                 break;
+
+
+                // send header method
+                // send body method
         }
     }
 
@@ -55,6 +59,8 @@ public class DatabaseHttpHandler implements HttpHandler {
         OutputStream outputStream = exchange.getResponseBody();
         exchange.getResponseHeaders().set("Content-Type", "application/json");
         exchange.getResponseHeaders().set("Content-Length", String.valueOf(json.length()));
+        // Content type & Content-length as a constant to avoid mistakes
+        // Change the above to a method - e.g. set content type and set content length
         exchange.sendResponseHeaders(200, json.length());
 
         outputStream.write(json.getBytes());

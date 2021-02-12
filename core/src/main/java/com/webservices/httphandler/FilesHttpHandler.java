@@ -9,19 +9,15 @@ import java.io.*;
 import java.nio.file.Files;
 
 public class FilesHttpHandler implements HttpHandler {
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-
         String getURL = null;
-        System.out.println(exchange.getRequestMethod());
         if ("GET".equals(exchange.getRequestMethod()) || "HEAD".equals(exchange.getRequestMethod())) {
-
             getURL = formatRequestUri(exchange);
             System.out.println(getURL);
         }
-
         handleResponse(exchange, getURL);
-
     }
 
     private String formatRequestUri(HttpExchange exchange) {
@@ -31,16 +27,13 @@ public class FilesHttpHandler implements HttpHandler {
     private void handleResponse(HttpExchange exchange, String getURL) throws IOException {
         OutputStream outputStream = exchange.getResponseBody();
 
-        File file = new File("files/" + getURL);
+        File file = new File("files" + File.separator + getURL);
         byte[] page = FileReader.readFromFile(file);
-
 
         String content = Files.probeContentType(file.toPath());
         System.out.println(file.getPath());
 
-        //if (file.getPath().equals("files" + File.separator + "func.js")) {
-        //    content = "application/javascript";
-        //}
+
         if (content == null || content.isEmpty()){
             content = getContentTypeForNotDetected(getURL);
         }
