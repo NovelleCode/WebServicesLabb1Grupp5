@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.*;
 import java.nio.file.Files;
 
+import com.webservices.NameConstants;
+
 public class FilesHttpHandler implements HttpHandler {
 
     @Override
@@ -27,7 +29,7 @@ public class FilesHttpHandler implements HttpHandler {
     private void handleResponse(HttpExchange exchange, String getURL) throws IOException {
         OutputStream outputStream = exchange.getResponseBody();
 
-        File file = new File("files" + File.separator + getURL);
+        File file = new File(NameConstants.FILES + File.separator + getURL);
         byte[] page = FileReader.readFromFile(file);
 
         String content = Files.probeContentType(file.toPath());
@@ -39,8 +41,8 @@ public class FilesHttpHandler implements HttpHandler {
         }
         System.out.println(content);
 
-        exchange.getResponseHeaders().set("Content-Type", content);
-        exchange.getResponseHeaders().set("Content-Length", String.valueOf(page.length));
+        exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, content);
+        exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(page.length));
         exchange.sendResponseHeaders(200, page.length);
 
 
@@ -56,7 +58,7 @@ public class FilesHttpHandler implements HttpHandler {
         String content = "";
         String fileExtension = StringUtils.substringAfter(getURL, ".").trim();
         if (fileExtension.equals("js")) {
-            content = "application/javascript";
+            content = NameConstants.CONTENTTYPEJS;
         }
         return content;
     }

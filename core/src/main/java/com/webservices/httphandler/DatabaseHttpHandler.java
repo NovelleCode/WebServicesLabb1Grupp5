@@ -2,6 +2,7 @@ package com.webservices.httphandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.webservices.NameConstants;
 import com.webservices.models.Person;
 import com.webservices.models.PersonDAO;
 import com.webservices.models.PersonDAOImpl;
@@ -45,10 +46,6 @@ public class DatabaseHttpHandler implements HttpHandler {
         }
     }
 
-    private void handleHeadResponse(HttpExchange exchange) {
-    }
-
-
     private static void handlePostResponse(HttpExchange exchange) throws IOException {
         String body = getFirstNameLastNameInput(exchange);
         String fName = getFirstName(body);
@@ -57,10 +54,8 @@ public class DatabaseHttpHandler implements HttpHandler {
 
         String json = createJsonResponse();
         OutputStream outputStream = exchange.getResponseBody();
-        exchange.getResponseHeaders().set("Content-Type", "application/json");
-        exchange.getResponseHeaders().set("Content-Length", String.valueOf(json.length()));
-        // Content type & Content-length as a constant to avoid mistakes
-        // Change the above to a method - e.g. set content type and set content length
+        exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, NameConstants.CONTENTTYPEJSON);
+        exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(json.length()));
         exchange.sendResponseHeaders(200, json.length());
 
         outputStream.write(json.getBytes());
@@ -72,8 +67,8 @@ public class DatabaseHttpHandler implements HttpHandler {
 
         String json = createJsonResponse();
         OutputStream outputStream = exchange.getResponseBody();
-        exchange.getResponseHeaders().set("Content-Type", "application/json");
-        exchange.getResponseHeaders().set("Content-Length", String.valueOf(json.length()));
+        exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, NameConstants.CONTENTTYPEJSON);
+        exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(json.length()));
         exchange.sendResponseHeaders(200, json.length());
 
         outputStream.write(json.getBytes());
