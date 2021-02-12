@@ -14,6 +14,8 @@ public class DatabaseHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.println(exchange.getRequestMethod());
+        System.out.println(exchange.getRequestURI());
         switch(exchange.getRequestMethod()) {
             case "HEAD":
                 handleHeaderResponse(exchange);
@@ -64,6 +66,7 @@ public class DatabaseHttpHandler implements HttpHandler {
             in.append(input).append(" ");
         }
         httpInput.close();
+        System.out.println(in.toString());
         return in.toString();
     }
 
@@ -79,9 +82,6 @@ public class DatabaseHttpHandler implements HttpHandler {
         var list = HandlePerson.getAllPersons();
         JsonConverter converter = new JsonConverter();
         var json = converter.convertToJson(list);
-        System.out.println(json);
         return json;
     }
-
-
 }

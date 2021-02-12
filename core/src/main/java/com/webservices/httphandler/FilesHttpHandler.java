@@ -14,46 +14,52 @@ public class FilesHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        String getURL = null;
-        if ("GET".equals(exchange.getRequestMethod()) || "HEAD".equals(exchange.getRequestMethod())) {
-            getURL = formatRequestUri(exchange);
-            System.out.println(getURL);
+        System.out.println(exchange.getRequestMethod());
+        System.out.println(exchange.getRequestURI());
+        switch(exchange.getRequestMethod()) {
+            case "HEAD":
+                handleHeaderResponse(exchange);
+                break;
+            case "GET":
+                handleHeaderResponse(exchange);
+                handleBodyResponse(exchange);
+                break;
+            default:
+                System.out.println("Konstig request");
+                System.out.println(exchange.getRequestMethod());
+                break;
         }
-        handleResponse(exchange, getURL);
     }
 
     private String formatRequestUri(HttpExchange exchange) {
         return exchange.getRequestURI().toString().substring(1);
     }
 
-    private void handleResponse(HttpExchange exchange, String getURL) throws IOException {
+    private void handleHeaderResponse(HttpExchange exchange) throws IOException {
+        File file = new File(NameConstants.FILES + File.separator + formatRequestUri(exchange));
+        String contentType = Files.probeContentType(file.toPath());
+
+        if (contentType == null || contentType.isEmpty()){
+            contentType = getContentTypeForNotDetected(formatRequestUri(exchange));
+        }
+
+        exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, contentType);
+        exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(file.length()));
+        exchange.sendResponseHeaders(200, file.length());
+    }
+
+    private void handleBodyResponse(HttpExchange exchange) throws IOException {
         OutputStream outputStream = exchange.getResponseBody();
 
-        File file = new File(NameConstants.FILES + File.separator + getURL);
+        File file = new File(NameConstants.FILES + File.separator + formatRequestUri(exchange));
         byte[] page = FileReader.readFromFile(file);
 
-        String content = Files.probeContentType(file.toPath());
-        System.out.println(file.getPath());
-
-        if (content == null || content.isEmpty()){
-            content = getContentTypeForNotDetected(getURL);
-        }
-        System.out.println(content);
-
-        exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, content);
-        exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(page.length));
-        exchange.sendResponseHeaders(200, page.length);
-
-
-        if ("GET".equals(exchange.getRequestMethod())) {
-            outputStream.write(page);
-        }
-
+        outputStream.write(page);
         outputStream.flush();
         outputStream.close();
     }
 
-    private static String getContentTypeForNotDetected(String getURL) {
+    private String getContentTypeForNotDetected(String getURL) {
         String content = "";
         String fileExtension = StringUtils.substringAfter(getURL, ".").trim();
         if (fileExtension.equals("js")) {
