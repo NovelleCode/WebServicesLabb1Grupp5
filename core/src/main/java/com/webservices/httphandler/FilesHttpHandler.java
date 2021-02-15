@@ -37,15 +37,27 @@ public class FilesHttpHandler implements HttpHandler {
 
     private void handleHeaderResponse(HttpExchange exchange) throws IOException {
         File file = new File(NameConstants.FILES + File.separator + formatRequestUri(exchange));
-        String contentType = Files.probeContentType(file.toPath());
 
-        if (contentType == null || contentType.isEmpty()){
-            contentType = getContentTypeForNotDetected(formatRequestUri(exchange));
+        if (!file.exists()) {
+
+            exchange.sendResponseHeaders(404, file.length());
+            System.out.println("404");
+
         }
 
-        exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, contentType);
-        exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(file.length()));
-        exchange.sendResponseHeaders(200, file.length());
+        else {
+
+            String contentType = Files.probeContentType(file.toPath());
+
+            if (contentType == null || contentType.isEmpty()) {
+                contentType = getContentTypeForNotDetected(formatRequestUri(exchange));
+            }
+
+            exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, contentType);
+            exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(file.length()));
+            exchange.sendResponseHeaders(200, file.length());
+
+        }
     }
 
     private void handleBodyResponse(HttpExchange exchange) throws IOException {
