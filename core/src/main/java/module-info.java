@@ -4,8 +4,6 @@ import com.webservices.httphandler.FilesHttpHandler;
 import com.webservices.plugin.Route;
 
 module core {
-    uses com.webservices.TestGreeting;
-    uses com.webservices.spi.Page;
     uses com.sun.net.httpserver.HttpHandler;
     uses Route;
     requires com.webservices.fileutils;
@@ -13,7 +11,6 @@ module core {
     requires com.google.gson;
     requires org.apache.commons.lang3;
     requires database;
-    requires spi;
     requires plugin;
     provides HttpHandler with DatabaseHttpHandler, FilesHttpHandler;
 

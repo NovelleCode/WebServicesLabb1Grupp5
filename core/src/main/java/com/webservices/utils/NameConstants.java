@@ -1,4 +1,4 @@
-package com.webservices.httphandler;
+package com.webservices.utils;
 
 public class NameConstants {
 
