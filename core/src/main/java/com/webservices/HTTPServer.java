@@ -21,20 +21,12 @@ public class HTTPServer {
     public static void main(String[] args) throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress("localhost", 8002), 0);
 
-//        server.createContext("/", new FilesHttpHandler());
-//
-//        server.createContext("/result", new DatabaseHttpHandler());
-
         ServiceLoader<HttpHandler> loader = ServiceLoader.load(HttpHandler.class);
         for (HttpHandler httpHandler : loader) {
             System.out.println(httpHandler.getClass().getAnnotation(Route.class).value());
             System.out.println(httpHandler);
 
-
-            if (httpHandler.getClass().getAnnotation(Route.class).value().equals("/test")) {
-                server.createContext(httpHandler.getClass().getAnnotation(Route.class).value(), httpHandler);
-            }
-
+            server.createContext(httpHandler.getClass().getAnnotation(Route.class).value(), httpHandler);
         }
 
         ExecutorService executorService = Executors.newCachedThreadPool();

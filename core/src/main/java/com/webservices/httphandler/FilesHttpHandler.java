@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 
-@Route("TJo")
+@Route("/")
 public class FilesHttpHandler implements HttpHandler {
 
     @Override
