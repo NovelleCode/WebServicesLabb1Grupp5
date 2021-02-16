@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webservices.NameConstants;
 import com.webservices.fileutils.FileReader;
+import com.webservices.plugin.Route;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 
+@Route("TJo")
 public class FilesHttpHandler implements HttpHandler {
 
     @Override

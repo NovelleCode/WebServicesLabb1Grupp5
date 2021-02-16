@@ -4,11 +4,14 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webservices.NameConstants;
 import com.webservices.models.HandlePerson;
+import com.webservices.plugin.Route;
 import org.apache.commons.lang3.StringUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+
+@Route("/då")
 
 public class DatabaseHttpHandler implements HttpHandler {
 

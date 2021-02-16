@@ -1,3 +1,6 @@
+import com.sun.net.httpserver.HttpHandler;
+import com.webservices.httphandler.DatabaseHttpHandler;
+import com.webservices.httphandler.FilesHttpHandler;
 import com.webservices.plugin.Route;
 
 module core {
@@ -12,5 +15,6 @@ module core {
     requires database;
     requires spi;
     requires plugin;
+    provides HttpHandler with DatabaseHttpHandler, FilesHttpHandler;
 
 }
