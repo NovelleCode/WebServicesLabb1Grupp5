@@ -2,7 +2,6 @@ package com.webservices.httphandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.webservices.NameConstants;
 import com.webservices.models.HandlePerson;
 import com.webservices.plugin.Route;
 import org.apache.commons.lang3.StringUtils;

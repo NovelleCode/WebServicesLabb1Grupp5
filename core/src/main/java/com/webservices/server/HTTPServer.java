@@ -1,17 +1,9 @@
-package com.webservices;
+package com.webservices.server;
 
-import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import com.webservices.httphandler.DatabaseHttpHandler;
-import com.webservices.httphandler.FilesHttpHandler;
-import com.webservices.plugin.PluginHttpHandler;
 import com.webservices.plugin.Route;
-import com.webservices.spi.Page;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
