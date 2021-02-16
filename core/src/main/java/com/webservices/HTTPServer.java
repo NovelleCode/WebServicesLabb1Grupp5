@@ -1,14 +1,13 @@
 package com.webservices;
 
-import com.sun.net.httpserver.*;
-import com.webservices.httphandler.FilesHttpHandler;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 import com.webservices.httphandler.DatabaseHttpHandler;
+import com.webservices.httphandler.FilesHttpHandler;
+import com.webservices.plugin.Route;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.URI;
 import java.util.ServiceLoader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,12 +20,10 @@ public class HTTPServer {
         server.createContext("/result", new DatabaseHttpHandler());
 
         ServiceLoader<HttpHandler> loader = ServiceLoader.load(HttpHandler.class);
-        System.out.println("Test");
-
         for (HttpHandler httpHandler : loader){
-            httpHandler.handle(HttpExchange ex);
+            System.out.println(httpHandler.getClass().getAnnotation(Route.class).value());
+            System.out.println(httpHandler);
         }
-
 
 
         ExecutorService executorService = Executors.newCachedThreadPool();

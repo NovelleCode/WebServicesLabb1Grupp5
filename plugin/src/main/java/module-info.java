@@ -9,5 +9,6 @@ module plugin {
 
     provides Page with ExternalPage;
     provides HttpHandler with PluginHttpHandler;
+    exports com.webservices.plugin;
 
 }
