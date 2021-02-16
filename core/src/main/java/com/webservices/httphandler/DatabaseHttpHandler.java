@@ -2,7 +2,9 @@ package com.webservices.httphandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.webservices.models.HandlePerson;
+import com.webservices.models.Person;
+import com.webservices.models.PersonDAO;
+import com.webservices.models.PersonDAOImpl;
 import com.webservices.plugin.Route;
 import com.webservices.utils.JsonConverter;
 import com.webservices.utils.NameConstants;
@@ -15,6 +17,11 @@ import java.io.OutputStream;
 @Route("/result")
 
 public class DatabaseHttpHandler implements HttpHandler {
+    public PersonDAO pdao;
+
+    public DatabaseHttpHandler() {
+        this.pdao = new PersonDAOImpl();
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -40,21 +47,21 @@ public class DatabaseHttpHandler implements HttpHandler {
         }
     }
 
-    private static void handlePostRequest (HttpExchange exchange) throws IOException {
+    private void handlePostRequest (HttpExchange exchange) throws IOException {
         String body = getFirstNameLastNameInput(exchange);
         String fName = getFirstName(body);
         String lName = getLastName(body);
-        HandlePerson.createAndAddPerson(fName, lName);
+        pdao.createAndAddPerson(fName, lName);
     }
 
-    private static void handleHeaderResponse(HttpExchange exchange) throws IOException {
+    private void handleHeaderResponse(HttpExchange exchange) throws IOException {
         String json = createJsonResponse();
         exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, NameConstants.CONTENTTYPEJSON);
         exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(json.length()));
         exchange.sendResponseHeaders(200, json.length());
     }
 
-    private static void handleBodyResponse(HttpExchange exchange) throws IOException {
+    private void handleBodyResponse(HttpExchange exchange) throws IOException {
         String json = createJsonResponse();
         OutputStream outputStream = exchange.getResponseBody();
         outputStream.write(json.getBytes());
@@ -62,7 +69,7 @@ public class DatabaseHttpHandler implements HttpHandler {
         outputStream.close();
     }
 
-    private static String getFirstNameLastNameInput(HttpExchange exchange) throws IOException {
+    private String getFirstNameLastNameInput(HttpExchange exchange) throws IOException {
         BufferedReader httpInput = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), "UTF-8"));
         StringBuilder in = new StringBuilder();
         String input;
@@ -74,16 +81,16 @@ public class DatabaseHttpHandler implements HttpHandler {
         return in.toString();
     }
 
-    private static String getLastName(String body) {
+    private String getLastName(String body) {
         return StringUtils.substringAfter(body, "lname=").trim();
     }
 
-    private static String getFirstName(String body) {
+    private String getFirstName(String body) {
         return StringUtils.substringBetween(body, "fname=", "&");
     }
 
-    private static String createJsonResponse() {
-        var list = HandlePerson.getAllPersons();
+    private String createJsonResponse() {
+        var list = pdao.getAll();
         JsonConverter converter = new JsonConverter();
         var json = converter.convertToJson(list);
         return json;

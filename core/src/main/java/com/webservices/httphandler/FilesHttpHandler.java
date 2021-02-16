@@ -39,28 +39,21 @@ public class FilesHttpHandler implements HttpHandler {
 
     private void handleHeaderResponse(HttpExchange exchange) throws IOException {
         File file = new File(NameConstants.FILES + File.separator + formatRequestUri(exchange));
+        int rCode = 404;
 
-        if (!file.exists()) {
-
-            exchange.sendResponseHeaders(404, file.length());
-            System.out.println("404");
-
-        }
-
-        else {
-
+        if (file.exists()) {
+            rCode = 200;
             String contentType = Files.probeContentType(file.toPath());
-
+//            Files.probeContentType cannot identify JavaScript files
+//            getContentTypeForNotDetected() checks for JavaScript files and gives it correct contentType
             if (contentType == null || contentType.isEmpty()) {
                 contentType = getContentTypeForNotDetected(formatRequestUri(exchange));
             }
-
             exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, contentType);
-            exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(file.length()));
-            exchange.sendResponseHeaders(200, file.length());
-
         }
-    }
+            exchange.getResponseHeaders().set(NameConstants.CONTENTLENGTH, String.valueOf(file.length()));
+            exchange.sendResponseHeaders(rCode, file.length());
+        }
 
     private void handleBodyResponse(HttpExchange exchange) throws IOException {
         OutputStream outputStream = exchange.getResponseBody();

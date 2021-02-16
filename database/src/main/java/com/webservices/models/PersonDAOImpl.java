@@ -10,7 +10,8 @@ public class PersonDAOImpl implements PersonDAO {
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPA");
 
     @Override
-    public void create(Person p) {
+    public void createAndAddPerson(String firstName, String lastName) {
+        Person p = new Person(firstName, lastName);
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.persist(p);
@@ -19,10 +20,9 @@ public class PersonDAOImpl implements PersonDAO {
 
     @Override
     public List<Person> getAll() {
-        List<Person> list;
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        list = em.createQuery("from Person", Person.class).getResultList();
+        List<Person> list = em.createQuery("from Person", Person.class).getResultList();
         em.getTransaction().commit();
         return list;
     }
