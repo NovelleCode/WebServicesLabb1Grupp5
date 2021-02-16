@@ -4,7 +4,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 
-@Route("/hej")
+@Route("/test")
 public class PluginHttpHandler implements HttpHandler{
 
     @Override
