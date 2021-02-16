@@ -1,7 +1,8 @@
 module core {
-    uses com.webservices.Adress;
+//    uses com.webservices.plugin.Adress;
     uses com.webservices.TestGreeting;
     uses com.webservices.spi.Page;
+    uses com.sun.net.httpserver.HttpHandler;
     requires com.webservices.fileutils;
     requires jdk.httpserver;
     requires com.google.gson;

@@ -1,5 +1,12 @@
 package com.webservices;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpsExchange;
+import com.webservices.spi.Page;
+
+import java.util.ServiceLoader;
+
 public class PluginLoader {
     public static void main(String[] args) {
       /*ServiceLoader<TestGreeting> loader = ServiceLoader.load(TestGreeting.class);
@@ -16,15 +23,16 @@ public class PluginLoader {
             }
         }*/
 
-        TestGreeting greeting = new TestGreeting();
-        System.out.println(greeting.getClass().getAnnotation(Adress.class).value());
+//        TestGreeting greeting = new TestGreeting();
+//        System.out.println(greeting.getClass().getAnnotation(Adress.class).value());
 
-        /*ServiceLoader<Page> loader = ServiceLoader.load(Page.class);
+        ServiceLoader<HttpHandler> loader = ServiceLoader.load(HttpHandler.class);
         System.out.println("Test");
 
-        for (Page page : loader){
-            page.execute();
-        }*/
+        for (HttpHandler httpHandler : loader){
+//            httpHandler.getClass().getAnnotation(Adress.class).value();
+            System.out.println(httpHandler);
+        }
 
     }
 }

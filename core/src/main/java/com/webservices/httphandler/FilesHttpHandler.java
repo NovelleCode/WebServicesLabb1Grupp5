@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ServiceLoader;
 
 import com.webservices.NameConstants;
 
@@ -14,6 +15,15 @@ public class FilesHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+
+        ServiceLoader<HttpHandler> loader = ServiceLoader.load(HttpHandler.class);
+        System.out.println("Test");
+
+        for (HttpHandler httpHandler : loader){
+            httpHandler.handle(exchange);
+        }
+
+
         System.out.println(exchange.getRequestMethod());
         System.out.println(exchange.getRequestURI());
         switch(exchange.getRequestMethod()) {

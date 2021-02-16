@@ -1,6 +1,6 @@
 package com.webservices;
 
-@Adress("/Greeting")
+//@Adress("/Greeting")
 public class TestGreeting  {
 
     public void printGreeting(){
