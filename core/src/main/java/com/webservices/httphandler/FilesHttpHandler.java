@@ -17,8 +17,9 @@ public class FilesHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-
+        System.out.println("Files");
         switch(exchange.getRequestMethod()) {
+
             case "HEAD":
                 handleHeaderResponse(exchange);
                 break;
