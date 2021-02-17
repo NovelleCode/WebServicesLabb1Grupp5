@@ -1,5 +1,7 @@
 import com.sun.net.httpserver.HttpHandler;
+import com.webservices.constants.NameConstants;
 import com.webservices.plugin.DatabaseHttpHandler;
+import com.webservices.plugin.NumberHttpHandler;
 import com.webservices.plugin.PluginHttpHandler;
 
 module plugin {
@@ -8,5 +10,5 @@ module plugin {
     requires database;
     requires com.webservices.utils;
 
-    provides HttpHandler with PluginHttpHandler, DatabaseHttpHandler;
+    provides HttpHandler with PluginHttpHandler, DatabaseHttpHandler, NumberHttpHandler;
 }
