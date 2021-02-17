@@ -17,7 +17,6 @@ public class HTTPServer {
         for (HttpHandler httpHandler : loader) {
             System.out.println(httpHandler.getClass().getAnnotation(Route.class).value());
             System.out.println(httpHandler);
-
             server.createContext(httpHandler.getClass().getAnnotation(Route.class).value(), httpHandler);
         }
 

@@ -5,8 +5,6 @@ import com.sun.net.httpserver.HttpHandler;
 import com.webservices.annotations.Route;
 import com.webservices.constants.NameConstants;
 import com.webservices.fileutils.FileReader;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
