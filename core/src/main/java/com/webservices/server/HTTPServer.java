@@ -2,7 +2,7 @@ package com.webservices.server;
 
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import com.webservices.plugin.Route;
+import com.webservices.annotations.Route;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ServiceLoader;

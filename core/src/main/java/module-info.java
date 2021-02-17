@@ -1,17 +1,13 @@
 import com.sun.net.httpserver.HttpHandler;
-import com.webservices.httphandler.DatabaseHttpHandler;
 import com.webservices.httphandler.FilesHttpHandler;
-import com.webservices.plugin.Route;
+import com.webservices.annotations.Route;
 
 module core {
     uses com.sun.net.httpserver.HttpHandler;
     uses Route;
-    requires com.webservices.fileutils;
+    requires com.webservices.utils;
     requires jdk.httpserver;
-    requires com.google.gson;
     requires org.apache.commons.lang3;
-    requires database;
-    requires plugin;
-    provides HttpHandler with DatabaseHttpHandler, FilesHttpHandler;
+    provides HttpHandler with FilesHttpHandler;
 
 }

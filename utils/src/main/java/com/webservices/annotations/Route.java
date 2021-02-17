@@ -1,4 +1,4 @@
-package com.webservices.plugin;
+package com.webservices.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

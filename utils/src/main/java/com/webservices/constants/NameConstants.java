@@ -1,4 +1,4 @@
-package com.webservices.utils;
+package com.webservices.constants;
 
 public class NameConstants {
 

@@ -1,13 +1,12 @@
-package com.webservices.httphandler;
+package com.webservices.plugin;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import com.webservices.models.Person;
 import com.webservices.models.PersonDAO;
 import com.webservices.models.PersonDAOImpl;
-import com.webservices.plugin.Route;
-import com.webservices.utils.JsonConverter;
-import com.webservices.utils.NameConstants;
+import com.webservices.converters.JsonConverter;
+import com.webservices.constants.NameConstants;
+import com.webservices.annotations.Route;
 import org.apache.commons.lang3.StringUtils;
 import java.io.BufferedReader;
 import java.io.IOException;

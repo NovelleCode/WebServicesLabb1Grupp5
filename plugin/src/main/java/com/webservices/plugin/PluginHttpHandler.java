@@ -2,6 +2,7 @@ package com.webservices.plugin;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.webservices.annotations.Route;
 
 import java.io.IOException;
 
@@ -10,6 +11,7 @@ public class PluginHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        System.out.println("Plugg");
         switch (exchange.getRequestMethod()) {
             case "HEAD":
                 //handleHeaderResponse(exchange);

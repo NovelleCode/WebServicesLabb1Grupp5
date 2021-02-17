@@ -12,7 +12,7 @@
         <module>client</module>
         <module>core</module>
         <module>plugin</module>
-        <module>fileutils</module>
+        <module>utils</module>
         <module>database</module>
     </modules>
 
