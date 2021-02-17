@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.List;
 
 @Route("/number")
 public class NumberHttpHandler implements HttpHandler {
@@ -20,7 +21,7 @@ public class NumberHttpHandler implements HttpHandler {
         public void handle(HttpExchange exchange) throws IOException {
             num++;
             OutputStream outputStream = exchange.getResponseBody();
-
+            List<String> userAgent = exchange.getRequestHeaders().get("User-Agent");
             String page2 = """
                 <html>
                 <head>
@@ -28,8 +29,9 @@ public class NumberHttpHandler implements HttpHandler {
                 </head>
                 <body>
                 <h1>You've been here %s times </h1> 
+                <p> you are reaching us via: %s</p>
                 </body>
-                </html>""".formatted(num);
+                </html>""".formatted(num, userAgent);
 
             exchange.getResponseHeaders().set(NameConstants.CONTENTTYPE, "text/html");
 
