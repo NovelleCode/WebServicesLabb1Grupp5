@@ -46,3 +46,9 @@ Accept: text/html
 HEAD http://localhost:8002/index.html
 Host: localhost
 Accept: text/html
+
+###
+GET http://localhost:8002/number
+Host: localhost
+Accept: text/html
+
